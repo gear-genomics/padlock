@@ -64,17 +64,10 @@ def generate():
                if genome == '':
                   return jsonify(errors = [{"title": "Please select a genome!"}]), 400
                genome = os.path.join(app.config['PADLOCK'], "fm", genome)
-               print(genome, editDist, armLength, geneData)
-               quit()
                try:
-                  return_code = call(['dicey', 'search', '-g', genome, '-o', outfile, '-i', os.path.join(SILICAWS, "../primer3_config/"),
-                                      '--maxProdSize', setAmpSize, '--cutTemp', setTmCutoff,
-                                               '--kmer', setKmer, '--distance', setEDis,
-                                               '--cutoffPenalty', setCutoffPen, '--penaltyTmDiff', setPenTmDiff,
-                                               '--penaltyTmMismatch', setPenTmMismatch, '--penaltyLength', setPenLength,
-                                               '--monovalent', setCtmMv, '--divalent', setCtmDv,
-                                               '--dna', setCtmDNA, '--dntp', setCtmDNTP,
-                                               ffaname], stdout=log, stderr=err)
+                  print(os.path.join(PADLOCKWS, "../primer3_config/"))
+                  return_code = call(['dicey', 'padlock', '-g', genome, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"),
+                                      '-b', os.path.join(PADLOCKWS, "../padlock/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                except OSError as e:
                   if e.errno == os.errno.ENOENT:
                      return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
