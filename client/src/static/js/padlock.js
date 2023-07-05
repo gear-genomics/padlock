@@ -459,37 +459,15 @@ function ungapped(seq) {
 }
 
 function showExample() {
-  resultLink.click()
-  const formData = new FormData()
-  formData.append('showExample', 'showExample')
-  hideElement(resultContainer)
-  hideElement(resultError)
-  showElement(resultInfo)
-  axios
-    .post(`${API_URL}/upload`, formData)
-    .then(res => {
-      if (res.status === 200) {
-        handleSuccess(res.data.data)
-      }
-    })
-    .catch(err => {
-      let errorMessage = err
-      if (err.response) {
-        errorMessage = err.response.data.errors
-          .map(error => error.title)
-          .join('; ')
-      }
-      hideElement(resultInfo)
-      showElement(resultError)
-      resultError.querySelector('#error-message').textContent = errorMessage
-    })
-}
-
-window.downloadBcf = downloadBcf
-function downloadBcf() {
-  // TODO: better bcf file name
-  saveAs(`${API_URL}/${downloadUrl}/bcf`, 'indigo-variants.bcf')
-}
+    var gene = document.getElementById('geneText')
+    gene.value = 'ENSG00000049540\nENSG00000205809\nENSG00000205810\n'
+    var selectbox = document.getElementById('genome-select')
+    for (var i = 0 ; i < selectbox.options.length ; i++) {
+	if (selectbox.options[i].value == 'Homo_sapiens.GRCh37.dna.primary_assembly.fa.gz') {
+	    selectbox.selectedIndex = i;
+	}
+    }
+}    
 
 window.handleTocChange = handleTocChange
 function handleTocChange(select) {

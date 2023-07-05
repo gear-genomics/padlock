@@ -73,7 +73,7 @@
       <div class="tab-content" id="main-tabs">
         <div class="tab-pane show active" id="input-tab">
 	  <div class="form-group">
-            <label for="geneText">Ensembl gene name</label>
+            <label for="geneText">Ensembl gene name(s)</label>
             <br />
             <textarea
               class="form-control"
@@ -81,7 +81,7 @@
               name="geneText"
               rows="8"
               cols="50"
-            ></textarea>
+            >ENSG00000049540</textarea>
           </div>
           <div class="form-group">
             <label for="armLength">Probe arm length</label>
@@ -234,28 +234,15 @@
         <div class="tab-pane" id="help-tab">
           <h4>Application Description</h4>
           <p>
-            Indigo is a rapid SNV and InDel discovery method for Chromatogram
-            traces obtained from Sanger sequencing of PCR products. The tool can
-            separate a mutated and wildtype allele with the help of a provided
-            reference. Indigo aligns both alleles against the reference genome,
-            calls variants and annotates these variants with rs identifiers.
-            Indigo also estimates the allelic fractions based on the mixed
-            traces.
+            Padlock is a method to design probes for in-situ sequencing.
           </p>
           <h4>Accepted Input</h4>
           <p>
-            The trace files can be provided in abi or scf trace format (*.scf,
-            *.abi, *.ab1, *.ab! and *.ab). The reference can be a genome
-            selected from the dropdown menu, an uploaded fasta file (*.fa) or
-            another trace file (*.scf, *.abi, *.ab1, *.ab! and *.ab).
+	    You need to input Ensembl gene IDs (e.g., ENSG00000232810). Gene symbols are currently not supported.
           </p>
           <h4>Sample Data</h4>
           <p>
-            The "Show Example" button loads an example trace file
-            <a href="static/bin/sample.abi">(click to download file)</a> that is
-            then separated into two alleles. Both alleles are aligned to the
-            reference, variants are called and annotated and results can be
-            downloaded in PDF and VCF format.
+            The "Show Example" button loads an example reference genome with matching Ensembl gene identifiers.
           </p>
         </div>
       </div>
