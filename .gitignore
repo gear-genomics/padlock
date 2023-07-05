@@ -1,5 +1,6 @@
 fm/
 data/
+barcodes/
 primer3_config/
 server/run.sh
 *.py~

@@ -65,21 +65,15 @@ def generate():
                   return jsonify(errors = [{"title": "Please select a genome!"}]), 400
                genome = os.path.join(app.config['PADLOCK'], "fm", genome)
                try:
-                  print(os.path.join(PADLOCKWS, "../primer3_config/"))
-                  return_code = call(['dicey', 'padlock', '-g', genome, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"),
-                                      '-b', os.path.join(PADLOCKWS, "../padlock/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                  gtfname = genome.replace('.fa.gz', '.gtf.gz')
+                  return_code = call(['dicey', 'padlock', '-g', genome, '-t', gtfname, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                except OSError as e:
                   if e.errno == os.errno.ENOENT:
                      return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
                   else:
                      return jsonify(errors = [{"title": "OSError " + str(e.errno) + " running binary dicey!"}]), 400
-      result = gzip.open(outfile).read()
-      if result is None:
-         datajs = []
-         datajs["errors"] = []
-      else:
-         datajs = json.loads(result)
-      datajs['uuid'] = uuidstr
+      datajs = dict()
+      datajs["errors"] = []
       with open(errfile, "r") as err:
          errInfo = ": " + err.read()
          if len(errInfo) > 3 or return_code != 0:
@@ -88,6 +82,10 @@ def generate():
             if return_code != 0:
                datajs["errors"] = [{"title": "Run Error - Dicey did not return 0"}] + datajs["errors"]
                return jsonify(datajs), 400
+      result = gzip.open(outfile).read()
+      if result is not None:
+         datajs = json.loads(result)
+      datajs['uuid'] = uuidstr
       return jsonify(datajs), 200
 
 
