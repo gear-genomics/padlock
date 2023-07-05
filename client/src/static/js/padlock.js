@@ -20,54 +20,27 @@ submitButton.addEventListener('click', function() {
 const exampleButton = document.getElementById('btn-example')
 exampleButton.addEventListener('click', showExample)
 
-const inputFile = document.getElementById('inputFile')
-const leftTrim = document.querySelector('#leftTrim')
-const rightTrim = document.querySelector('#rightTrim')
-const peakRatio = document.querySelector('#peakRatio')
-const targetFastaFile = document.getElementById('targetFileFasta')
-const targetChromatogramFile = document.getElementById('targetFileChromatogram')
+const armLength = document.querySelector('#armLength')
+const editDist = document.querySelector('#editDist')
 const targetGenomes = document.getElementById('target-genome')
 const targetTabs = document.getElementById('target-tabs')
-const linkPdf = document.getElementById('link-pdf')
-const decompositionChart = document.getElementById('decomposition-chart')
-const alignmentChart1 = document.getElementById('alignment-chart-1')
-const alignmentChart2 = document.getElementById('alignment-chart-2')
-const alignmentChart3 = document.getElementById('alignment-chart-3')
-const traceChart = document.getElementById('trace-chart')
 const variantsTable = document.getElementById('variants-table')
 const resultContainer = document.getElementById('result-container')
 const resultInfo = document.getElementById('result-info')
 const resultError = document.getElementById('result-error')
 let downloadUrl
 
-function updatePeakRatioValue() {
-  document.getElementById('peakRatioValue').innerText = peakRatio.value
-}
-
-updatePeakRatioValue()
-window.updatePeakRatioValue = updatePeakRatioValue
-
 // TODO client-side validation
 function run() {
-  const lTrim = Number.parseInt(leftTrim.value, 10)
-  const rTrim = Number.parseInt(rightTrim.value, 10)
-  const pRatio = Number.parseInt(peakRatio.value, 10)
+  const aLength = Number.parseInt(armLength.value, 10)
+  const eDist = Number.parseInt(editDist.value, 10)
+  const genome = targetGenomes.querySelector('option:checked').value
 
   const formData = new FormData()
-  formData.append('queryFile', inputFile.files[0])
-  formData.append('leftTrim', lTrim)
-  formData.append('rightTrim', rTrim)
-  formData.append('peakRatio', pRatio)
-  const target = targetTabs.querySelector('a.active').id
-
-  if (target.startsWith('target-genome')) {
-    const genome = targetGenomes.querySelector('option:checked').value
-    formData.append('genome', genome)
-  } else if (target.startsWith('target-fasta')) {
-    formData.append('fastaFile', targetFastaFile.files[0])
-  } else if (target.startsWith('target-chromatogram')) {
-    formData.append('chromatogramFile', targetChromatogramFile.files[0])
-  }
+  formData.append('geneText', document.getElementById('geneText').value);
+  formData.append('armLength', aLength)
+  formData.append('editDist', eDist)
+  formData.append('genome', genome)
 
   hideElement(resultContainer)
   hideElement(resultError)
