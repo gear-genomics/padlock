@@ -1,5 +1,3 @@
 node_modules/
 .cache/
 dist/
-.env.production
-.env.development
