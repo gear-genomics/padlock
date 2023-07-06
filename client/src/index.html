@@ -138,7 +138,7 @@
             <div class="form-row align-items-center">
               <div class="col-auto">
                 <a
-                  id="link-pdf"
+                  id="link-tsv"
                   class="btn btn-outline-primary"
                   href="#"
                   target="_blank"
@@ -147,86 +147,14 @@
                   data-placement="top"
                   title="PDF link is valid for 24h."
                 >
-                  <i class="far fa-file" style="margin-right: 5px;"></i> View
-                  PDF
+                  <i class="far fa-file" style="margin-right: 5px;"></i> Download
+                  tsv
                 </a>
-              </div>
-              <div class="col-auto">
-                <button
-                  class="btn btn-outline-primary"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Download variants in BCF format"
-                  onclick="downloadBcf()"
-                >
-                  <i
-                    class="fas fa-file-download"
-                    style="margin-right: 5px;"
-                  ></i>
-                  Variants BCF
-                </button>
-              </div>
-              <div class="col-auto">
-                <select
-                  class="form-control"
-                  id="tocSelect"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Table of contents"
-                  onchange="handleTocChange(this)"
-                >
-                  <option value="#">-- Please select --</option>
-                  <option value="trace-chart">Trace & basecall viewer</option>
-                  <option value="alignment-chart-1">Alignments</option>
-                  <option value="variants-table">Variants</option>
-                  <option value="decomposition-chart">Decomposition</option>
-                </select>
               </div>
             </div>
             <div class="mt-4">
-              <h4>Trace & basecall viewer</h4>
-              <div class="text-secondary">
-                <i class="fas fa-question"></i> Plot help:
-                <a
-                  href="https://help.plot.ly/zoom-pan-hover-controls/"
-                  target="_blank"
-                  >Zoom/pan/hover</a
-                >
-                <a
-                  href="https://help.plot.ly/getting-to-know-the-plotly-modebar/"
-                  target="_blank"
-                  >Toolbar</a
-                >
-              </div>
-              <div id="trace-chart"></div>
-
-              <h4>Alt1 Alignment</h4>
-              <div id="alignment-chart-1"></div>
-
-              <h4>Alt2 Alignment</h4>
-              <div id="alignment-chart-2"></div>
-
-              <h4>Alt1 vs Alt2 Alignment</h4>
-              <div id="alignment-chart-3"></div>
-
-              <h4>Variants</h4>
+              <h4>Padlock probes</h4>
               <div id="variants-table" style="overflow-x: auto;"></div>
-
-              <h4>Decomposition plot</h4>
-              <div class="text-secondary">
-                <i class="fas fa-question"></i> Plot help:
-                <a
-                  href="https://help.plot.ly/zoom-pan-hover-controls/"
-                  target="_blank"
-                  >Zoom/pan/hover</a
-                >
-                <a
-                  href="https://help.plot.ly/getting-to-know-the-plotly-modebar/"
-                  target="_blank"
-                  >Toolbar</a
-                >
-              </div>
-              <div id="decomposition-chart"></div>
             </div>
           </div>
         </div>

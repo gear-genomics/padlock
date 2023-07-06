@@ -20,11 +20,23 @@ app.config['PADLOCK'] = os.path.join(PADLOCKWS, "..")
 app.config['UPLOAD_FOLDER'] = os.path.join(app.config['PADLOCK'], "data")
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024   #maximum of 8MB
 
+def allowed_file(filename):
+   return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['tsv'])
 
 uuid_re = re.compile(r'(^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})-{0,1}([ap]{0,1})([cj]{0,1})$')
 def is_valid_uuid(s):
    return uuid_re.match(s) is not None
 
+@app.route('/api/v1/download/<uuid>/<ext>')
+def download(uuid, ext):
+    if is_valid_uuid(uuid):
+        filename = "padlock_" + uuid + "." + ext
+        if allowed_file(filename):
+            sf = os.path.join(app.config['UPLOAD_FOLDER'], uuid[0:2])
+            if os.path.exists(sf):
+                if os.path.isfile(os.path.join(sf, filename)):
+                    return send_file(os.path.join(sf, filename), download_name=filename)
+    return "File does not exist!"
 
 @app.route('/api/v1/upload', methods=['POST'])
 def generate():
@@ -37,7 +49,8 @@ def generate():
          os.makedirs(sf)
 
       # Run dicey
-      outfile = os.path.join(sf, "padlock_" + uuidstr + ".json.gz")
+      jsonfile = os.path.join(sf, "padlock_" + uuidstr + ".json.gz")
+      outfile = os.path.join(sf, "padlock_" + uuidstr + ".tsv")
       logfile = os.path.join(sf, "padlock_" + uuidstr + ".log")
       errfile = os.path.join(sf, "padlock_" + uuidstr + ".err")
       with open(logfile, "w") as log:
@@ -66,7 +79,7 @@ def generate():
                genome = os.path.join(app.config['PADLOCK'], "fm", genome)
                try:
                   gtfname = genome.replace('.fa.gz', '.gtf.gz')
-                  return_code = call(['dicey', 'padlock', '-g', genome, '-t', gtfname, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                  return_code = call(['dicey', 'padlock', '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                except OSError as e:
                   if e.errno == os.errno.ENOENT:
                      return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
@@ -82,10 +95,11 @@ def generate():
             if return_code != 0:
                datajs["errors"] = [{"title": "Run Error - Dicey did not return 0"}] + datajs["errors"]
                return jsonify(datajs), 400
-      result = gzip.open(outfile).read()
+      result = gzip.open(jsonfile).read()
       if result is not None:
          datajs = json.loads(result)
       datajs['uuid'] = uuidstr
+      datajs['url'] = "download/" + uuidstr
       return jsonify(datajs), 200
 
 
