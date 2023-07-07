@@ -24,7 +24,7 @@ const armLength = document.querySelector('#armLength')
 const editDist = document.querySelector('#editDist')
 const targetGenomes = document.getElementById('target-genome')
 const targetTabs = document.getElementById('target-tabs')
-const variantsTable = document.getElementById('variants-table')
+const padlockTable = document.getElementById('padlocks-table')
 const resultContainer = document.getElementById('result-container')
 const resultInfo = document.getElementById('result-info')
 const resultError = document.getElementById('result-error')
@@ -76,27 +76,26 @@ function handleSuccess(data) {
   downloadUrl = data.url
   linkTsv.href = `${API_URL}/${downloadUrl}/tsv`
 
-  renderPadlockTable(variantsTable, data.data)
+  renderPadlockTable(padlockTable, data.data)
 }
 
-function renderPadlockTable(container, variants) {
-    console.log(variants)
+function renderPadlockTable(container, padlocks) {
   const html = `
     <table class="table table-sm table-striped table-hover">
       <thead>
         <tr>
-          ${variants.columns
+          ${padlocks.columns
             .map(title => `<th scope="col">${title}</th>`)
             .join('')}
         </tr>
       </thead>
       <tbody>
-        ${variants.rows
+        ${padlocks.rows
           .map(
             (row, i) => `<tr>
             ${row
               .map(
-                  (value, j) => { if (value.startsWith('https://')) { return `<td title="${variants.columns[j]}"><a href="${value}" target="_blank">Link</a></td>` } else { return `<td title="${variants.columns[j]}">${value}</td>` } }
+                  (value, j) => { if (value.startsWith('https://')) { return `<td title="${padlocks.columns[j]}"><a href="${value}" target="_blank">Link</a></td>` } else { return `<td title="${padlocks.columns[j]}">${value}</td>` } }
               )
               .join('')}
           </tr>`
@@ -131,15 +130,6 @@ function showExample() {
 	}
     }
 }    
-
-window.handleTocChange = handleTocChange
-function handleTocChange(select) {
-  const targetId = select.value
-  if (targetId !== '#') {
-    document.getElementById(targetId).scrollIntoView()
-    select.value = '#'
-  }
-}
 
 function showElement(element) {
   element.classList.remove('d-none')
