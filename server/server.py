@@ -9,7 +9,7 @@ import json
 import gzip
 from subprocess import call
 from flask import Flask, send_file, flash, send_from_directory, request, redirect, url_for, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -28,6 +28,7 @@ def is_valid_uuid(s):
    return uuid_re.match(s) is not None
 
 @app.route('/api/v1/download/<uuid>/<ext>')
+@cross_origin()
 def download(uuid, ext):
     if is_valid_uuid(uuid):
         filename = "padlock_" + uuid + "." + ext
@@ -39,6 +40,7 @@ def download(uuid, ext):
     return "File does not exist!"
 
 @app.route('/api/v1/upload', methods=['POST'])
+@cross_origin()
 def generate():
    if request.method == 'POST':
       uuidstr = str(uuid.uuid4())
@@ -101,6 +103,7 @@ def generate():
 
 
 @app.route('/api/v1/results/<uuid>', methods = ['GET', 'POST'])
+@cross_origin()
 def results(uuid):
     if is_valid_uuid(uuid):
         sf = os.path.join(app.config['UPLOAD_FOLDER'], uuid[0:2])
@@ -124,11 +127,13 @@ def results(uuid):
 
 
 @app.route('/api/v1/genomeindex', methods=['POST'])
+@cross_origin()
 def genomeind():
     return send_from_directory(os.path.join(PADLOCKWS, "../fm"),"genomeindexindex.json"), 200
 
 
 @app.route('/api/v1/health', methods=['GET'])
+@cross_origin()
 def health():
     return jsonify(status="OK")
 
