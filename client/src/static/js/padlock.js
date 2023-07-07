@@ -119,10 +119,14 @@ function ungapped(seq) {
 
 function showExample() {
     var gene = document.getElementById('geneText')
-    gene.value = 'ENSG00000049540\nENSG00000205809\nENSG00000205810\n'
+    gene.value = 'ENSDARG00000061385\nENSDARG00000053405\nENSDARG00000007196\n'
+    var editBox = document.getElementById('editDist')
+    editBox.value = 1
+    var armBox = document.getElementById('armLength')
+    armBox.value = 18
     var selectbox = document.getElementById('genome-select')
     for (var i = 0 ; i < selectbox.options.length ; i++) {
-	if (selectbox.options[i].value == 'Homo_sapiens.GRCh37.dna.primary_assembly.fa.gz') {
+	if (selectbox.options[i].value == 'Danio_rerio.GRCz10.dna.toplevel.fa.gz') {
 	    selectbox.selectedIndex = i;
 	}
     }

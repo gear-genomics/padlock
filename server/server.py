@@ -79,12 +79,9 @@ def generate():
                genome = os.path.join(app.config['PADLOCK'], "fm", genome)
                try:
                   gtfname = genome.replace('.fa.gz', '.gtf.gz')
-                  return_code = call(['dicey', 'padlock', '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                  return_code = call(['dicey', 'padlock', '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                except OSError as e:
-                  if e.errno == os.errno.ENOENT:
-                     return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
-                  else:
-                     return jsonify(errors = [{"title": "OSError " + str(e.errno) + " running binary dicey!"}]), 400
+                  return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
       datajs = dict()
       datajs["errors"] = []
       with open(errfile, "r") as err:
