@@ -9,7 +9,7 @@ import json
 import gzip
 from subprocess import call
 from flask import Flask, send_file, flash, send_from_directory, request, redirect, url_for, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -124,6 +124,7 @@ def results(uuid):
 
 
 @app.route('/api/v1/genomeindex', methods=['POST'])
+@cross_origin(origin='*')
 def genomeind():
     return send_from_directory(os.path.join(PADLOCKWS, "../fm"),"genomeindexindex.json"), 200
 
