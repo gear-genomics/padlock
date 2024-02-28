@@ -90,11 +90,20 @@ def generate():
                   gtfname = genome.replace('.fa.gz', '.gtf.gz')
                   flags = ''
                   if hamming == 'true':
-                     flags += ' -n '
+                     if len(flags) == 0:
+                        flags = '-n'
+                     else:
+                        flags += 'n'
                   if overlap == 'true':
-                     flags += ' -v '
+                     if len(flags) == 0:
+                        flags = '-v'
+                     else:
+                        flags += 'v'
                   if probe == 'true':
-                     flags += ' -p '
+                     if len(flags) == 0:
+                        flags = '-p'
+                     else:
+                        flags += 'p'
                   if len(flags) == 0:
                      return_code = call(['dicey', 'padlock', '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                   else:
