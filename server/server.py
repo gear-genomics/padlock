@@ -88,14 +88,17 @@ def generate():
                genome = os.path.join(app.config['PADLOCK'], "fm", genome)
                try:
                   gtfname = genome.replace('.fa.gz', '.gtf.gz')
-                  flags = ' '
+                  flags = ''
                   if hamming == 'true':
                      flags += ' -n '
                   if overlap == 'true':
                      flags += ' -v '
                   if probe == 'true':
                      flags += ' -p '
-                  return_code = call(['dicey', 'padlock', flags, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                  if len(flags) == 0:
+                     return_code = call(['dicey', 'padlock', '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                  else:
+                     return_code = call(['dicey', 'padlock', flags, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                except OSError as e:
                   return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
       datajs = dict()
