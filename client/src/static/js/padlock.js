@@ -22,6 +22,9 @@ exampleButton.addEventListener('click', showExample)
 
 const armLength = document.querySelector('#armLength')
 const editDist = document.querySelector('#editDist')
+const useHamming = document.querySelector('#is_hamming')
+const useProbe = document.querySelector('#is_probe')
+const allowOverlap = document.querySelector('#is_overlapping')
 const targetGenomes = document.getElementById('target-genome')
 const targetTabs = document.getElementById('target-tabs')
 const padlockTable = document.getElementById('padlocks-table')
@@ -36,12 +39,18 @@ function run() {
   const aLength = Number.parseInt(armLength.value, 10)
   const eDist = Number.parseInt(editDist.value, 10)
   const genome = targetGenomes.querySelector('option:checked').value
+  const uh = useHamming.checked
+  const up = useProbe.checked
+  const ao = allowOverlap.checked
 
   const formData = new FormData()
-  formData.append('geneText', document.getElementById('geneText').value);
+  formData.append('geneText', document.getElementById('geneText').value)
   formData.append('armLength', aLength)
   formData.append('editDist', eDist)
   formData.append('genome', genome)
+  formData.append('hamming', uh)
+  formData.append('probe', up)
+  formData.append('overlap', ao)  
 
   hideElement(resultContainer)
   hideElement(resultError)

@@ -85,7 +85,7 @@
 />
           </div>
           <div class="form-group">
-            <label for="editDist">Edit distance</label>
+            <label for="editDist">Edit/Hamming distance</label>
             <input
               type="number"
               class="form-control"
@@ -94,6 +94,15 @@
               min="0"
               max="2"
 />
+          </div>
+          <div class="form-group">
+            Use hamming distance (default is edit distance):&nbsp;&nbsp;<input type="checkbox" id="is_hamming" unchecked/>
+          </div>
+	  <div class="form-group">
+	    Apply distance to entire probe (default is probe arm):&nbsp;&nbsp;<input type="checkbox" id="is_probe" unchecked/>
+          </div>
+	  <div class="form-group">
+	    Allow overlapping probes (default is non-overlapping):&nbsp;&nbsp;<input type="checkbox" id="is_overlapping" unchecked/>
           </div>
 	  <div class="alert alert-primary mb-2" role="alert">
             Select genome
