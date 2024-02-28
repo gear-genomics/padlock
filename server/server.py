@@ -66,10 +66,13 @@ def generate():
                   geneFile.write(geneData)
             if 'armLength' in request.form.keys():
                armLength = int(request.form['armLength'])
+            overlap = 'false'
             if 'overlap' in request.form.keys():
                overlap = request.form['overlap']
+            probe = 'false'
             if 'probe' in request.form.keys():
                probe = request.form['probe']
+            hamming = 'false'
             if 'hamming' in request.form.keys():
                hamming = request.form['hamming']
             if (armLength < 10) or (armLength > 50):
@@ -92,7 +95,6 @@ def generate():
                      flags += ' -v '
                   if probe == 'true':
                      flags += ' -p '
-                  print(flags)
                   return_code = call(['dicey', 'padlock', flags, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
                except OSError as e:
                   return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
