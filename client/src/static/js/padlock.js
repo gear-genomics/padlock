@@ -25,6 +25,8 @@ const editDist = document.querySelector('#editDist')
 const useHamming = document.querySelector('#is_hamming')
 const useProbe = document.querySelector('#is_probe')
 const allowOverlap = document.querySelector('#is_overlapping')
+const colorAmount = document.querySelector('#colorAmount')
+const codeLength = document.querySelector('#codeLength')
 const targetGenomes = document.getElementById('target-genome')
 const targetTabs = document.getElementById('target-tabs')
 const padlockTable = document.getElementById('padlocks-table')
@@ -42,6 +44,8 @@ function run() {
   const uh = useHamming.checked
   const up = useProbe.checked
   const ao = allowOverlap.checked
+  const colorA = Number.parseInt(colorAmount.value, 10)
+  const codeL = Number.parseInt(codeLength.value, 10)
 
   const formData = new FormData()
   formData.append('geneText', document.getElementById('geneText').value)
@@ -50,7 +54,12 @@ function run() {
   formData.append('genome', genome)
   formData.append('hamming', uh)
   formData.append('probe', up)
-  formData.append('overlap', ao)  
+  formData.append('overlap', ao)
+  formData.append('colorAmount', colorA)
+  formData.append('codeLength', codeL)
+  formData.append('anchorSeq', document.getElementById('anchorSeq').value)
+  formData.append('spacerLeft', document.getElementById('spacerLeft').value)
+  formData.append('spacerRight', document.getElementById('spacerRight').value)
 
   hideElement(resultContainer)
   hideElement(resultError)
