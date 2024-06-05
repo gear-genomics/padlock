@@ -81,13 +81,37 @@ def generate():
                editDist = int(request.form['editDist'])
             if (editDist < 0) or (editDist > 2):
                return jsonify(errors = [{"title": "Edit distance has to be in {0, 1, 2}!"}]), 400
+            anchorSeq = 'TGCGTCTATTTAGTGGAGCC'
+            if 'anchorSeq' in request.form.keys():
+               anchorSeq = request.form['anchorSeq']
+            spacerLeft = 'TCCTC'
+            if 'spacerLeft' in request.form.keys():
+               spacerLeft = request.form['spacerLeft']
+            spacerRight = 'TCTTT'
+            if 'spacerRight' in request.form.keys():
+               spacerRight = request.form['spacerRight']
+            colorAmount = 4
+            if 'colorAmount' in request.form.keys():
+               colorAmount = int(request.form['colorAmount'])
+            codeLength = 6
+            if 'codeLength' in request.form.keys():
+               codeLength = int(request.form['codeLength'])
+            # Build barcode path
+            barname = "../barcodes/colors" + str(colorAmount) + "length" + str(codeLength) + ".fa.gz"
+            barpath = os.path.join(PADLOCKWS, barname)
+            if not os.path.isfile(barpath):
+               return jsonify(errors = [{"title": "Barcode file does not exist: " + barpath}]), 400
             if 'genome' in request.form.keys():
                genome = request.form['genome']
                if genome == '':
                   return jsonify(errors = [{"title": "Please select a genome!"}]), 400
                genome = os.path.join(app.config['PADLOCK'], "fm", genome)
+               if not os.path.isfile(genome):
+                  return jsonify(errors = [{"title": "Genome does not exist: " + genome}]), 400
                try:
                   gtfname = genome.replace('.fa.gz', '.gtf.gz')
+                  if not os.path.isfile(gtfname):
+                     return jsonify(errors = [{"title": "GTF file does not exist: " + gtfname}]), 400
                   flags = ''
                   if hamming == 'true':
                      if len(flags) == 0:
@@ -105,11 +129,11 @@ def generate():
                      else:
                         flags += 'p'
                   if len(flags) == 0:
-                     return_code = call(['dicey', 'padlock', '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                     return_code = call(['dicey', 'padlock', '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                   else:
-                     return_code = call(['dicey', 'padlock', flags, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', os.path.join(PADLOCKWS, "../barcodes/bar.fa.gz"), ffaname], stdout=log, stderr=err)
+                     return_code = call(['dicey', 'padlock', flags, '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                except OSError as e:
-                  return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400
+                  return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400               
       datajs = dict()
       datajs["errors"] = []
       with open(errfile, "r") as err:
