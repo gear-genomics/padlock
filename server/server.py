@@ -129,9 +129,9 @@ def generate():
                      else:
                         flags += 'p'
                   if len(flags) == 0:
-                     return_code = call(['dicey', 'padlock', '-a', '"' + anchorSeq + '"', '-l', '"' + spacerLeft + '"', '-r', '"' + spacerRight + '"', '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
+                     return_code = call(['dicey', 'padlock', '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                   else:
-                     return_code = call(['dicey', 'padlock', flags, '-a', '"' + anchorSeq + '"', '-l', '"' + spacerLeft + '"', '-r', '"' + spacerRight + '"', '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
+                     return_code = call(['dicey', 'padlock', flags, '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                except OSError as e:
                   return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400               
       datajs = dict()
