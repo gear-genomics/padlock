@@ -77,10 +77,15 @@ def generate():
                hamming = request.form['hamming']
             if (armLength < 10) or (armLength > 50):
                return jsonify(errors = [{"title": "Arm length needs to be in size interval [10, 50]!"}]), 400
+            editDist = 1
             if 'editDist' in request.form.keys():
                editDist = int(request.form['editDist'])
-            if (editDist < 0) or (editDist > 2):
-               return jsonify(errors = [{"title": "Edit distance has to be in {0, 1, 2}!"}]), 400
+            featGtf = "exon"
+            if 'featGtf' in request.form.keys():
+               featGtf = request.form['featGtf']
+            attrGtf = "gene_id"
+            if 'attrGtf' in request.form.keys():
+               attrGtf = request.form['attrGtf']
             anchorSeq = 'TGCGTCTATTTAGTGGAGCC'
             if 'anchorSeq' in request.form.keys():
                anchorSeq = request.form['anchorSeq']
@@ -129,9 +134,9 @@ def generate():
                      else:
                         flags += 'p'
                   if len(flags) == 0:
-                     return_code = call(['dicey', 'padlock', '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
+                     return_code = call(['dicey', 'padlock', '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-u', attrGtf, '-f', featGtf, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                   else:
-                     return_code = call(['dicey', 'padlock', flags, '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
+                     return_code = call(['dicey', 'padlock', flags, '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-u', attrGtf, '-f', featGtf, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                except OSError as e:
                   return jsonify(errors = [{"title": "Binary dicey not found!"}]), 400               
       datajs = dict()

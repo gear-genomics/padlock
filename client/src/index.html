@@ -60,19 +60,49 @@
           <a class="nav-link" href="#help-tab" id="link-help">Help</a>
         </li>
       </ul>
-      <div class="tab-content" id="main-tabs">
+      <div class="tab-content" id="main-tabs">	
         <div class="tab-pane show active" id="input-tab">
-	  <div class="form-group">
-            <label for="geneText">Ensembl gene name(s)</label>
-            <br />
-            <textarea
-              class="form-control"
-              id="geneText"
-              name="geneText"
-              rows="8"
-              cols="50"
-            >ENSG00000171862</textarea>
-          </div>
+          <div class="card">
+           <div class="card-body">	      
+             <h5 class="card-title">Source sequences for target design</h5>
+	      <div class="form-group">
+               <label for="geneText">Ensembl gene/transcript name(s)</label>
+               <br />
+               <textarea
+                 class="form-control"
+                 id="geneText"
+                 name="geneText"
+                 rows="8"
+                 cols="50"
+               >ENSG00000171862</textarea>
+              </div>
+       	      <div class="row">
+ 	       <div class="col">
+                <div class="form-group">
+                 <label for="attrGtf">Attribute identifier</label>
+                  <select class="form-control" id="attrGtf">
+                    <option selected>gene_id</option>
+                    <option>transcript_id</option>
+                  </select>
+                </div>
+	       </div>
+      	       <div class="col">
+	        <div class="form-group">
+                 <label for="featGtf">Feature identifier</label>
+                  <select class="form-control" id="featGtf">
+                    <option selected>exon</option>
+                    <option>CDS</option>
+                    <option>gene</option>
+                    <option>transcript</option>
+		    <option>three_prime_utr</option>
+   		    <option>five_prime_utr</option>
+                  </select>
+                </div>
+	       </div>
+	      </div>
+	    </div>
+	  </div>
+          <br />
           <div class="card">
            <div class="card-body">	      
              <h5 class="card-title">Probe design</h5>
@@ -92,15 +122,11 @@
 	      </div>
 	      <div class="col">
                <div class="form-group">
-                <label for="editDist">Min. genome distance</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="editDist"
-                  value="1"
-                  min="0"
-                  max="2"
-/>
+                 <label for="editDist">Min. genome distance</label>
+                 <select class="form-control" id="editDist">
+		    <option>0</option>
+                    <option selected>1</option>
+                  </select>
                </div>
 	      </div>
             </div>
@@ -263,7 +289,7 @@
           </p>
           <h4>Accepted Input</h4>
           <p>
-	    You need to input Ensembl gene IDs (e.g., ENSG00000232810). Gene symbols are currently not supported.
+	    You need to input Ensembl gene (e.g., ENSG00000232810) or transcript identifiers (e.g., ENST00000700026). For gene identifiers use "gene_id" as attribute and "transcript_id" for transcript identifiers. Gene symbols are currently not supported.
           </p>
           <h4>Sample Data</h4>
           <p>

@@ -49,6 +49,8 @@ function run() {
 
   const formData = new FormData()
   formData.append('geneText', document.getElementById('geneText').value)
+  formData.append('attrGtf', document.getElementById('attrGtf').value)
+  formData.append('featGtf', document.getElementById('featGtf').value)
   formData.append('armLength', aLength)
   formData.append('editDist', eDist)
   formData.append('genome', genome)
@@ -137,6 +139,10 @@ function ungapped(seq) {
 function showExample() {
     var gene = document.getElementById('geneText')
     gene.value = 'ENSDARG00000061385\nENSDARG00000053405\nENSDARG00000007196\n'
+    var attr = document.getElementById('attrGtf')
+    attr.value = "gene_id"
+    var feat = document.getElementById('featGtf')
+    feat.value = "exon"
     var editBox = document.getElementById('editDist')
     editBox.value = 1
     var armBox = document.getElementById('armLength')
