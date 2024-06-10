@@ -75,6 +75,9 @@ def generate():
             hamming = 'false'
             if 'hamming' in request.form.keys():
                hamming = request.form['hamming']
+            absent = 'false'
+            if 'absent' in request.form.keys():
+               absent = request.form['absent']
             if (armLength < 10) or (armLength > 50):
                return jsonify(errors = [{"title": "Arm length needs to be in size interval [10, 50]!"}]), 400
             editDist = 1
@@ -133,6 +136,11 @@ def generate():
                         flags = '-p'
                      else:
                         flags += 'p'
+                  if absent == 'true':
+                     if len(flags) == 0:
+                        flags = '-e'
+                     else:
+                        flags += 'e'
                   if len(flags) == 0:
                      return_code = call(['dicey', 'padlock', '-a', anchorSeq, '-l', spacerLeft, '-r', spacerRight, '-d', str(editDist), '-m', str(armLength), '-g', genome, '-t', gtfname, '-u', attrGtf, '-f', featGtf, '-j', jsonfile, '-o', outfile, '-i', os.path.join(PADLOCKWS, "../primer3_config/"), '-b', barpath, ffaname], stdout=log, stderr=err)
                   else:

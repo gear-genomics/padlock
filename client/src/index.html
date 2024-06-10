@@ -66,7 +66,7 @@
            <div class="card-body">	      
              <h5 class="card-title">Source sequences for target design</h5>
 	      <div class="form-group">
-               <label for="geneText">Ensembl gene/transcript name(s)</label>
+               <label for="geneText">Ensembl gene/transcript name(s) or FASTA sequence</label>
                <br />
                <textarea
                  class="form-control"
@@ -74,6 +74,7 @@
                  name="geneText"
                  rows="8"
                  cols="50"
+		 maxlength="10000"
                >ENSG00000171862</textarea>
               </div>
        	      <div class="row">
@@ -100,6 +101,9 @@
                 </div>
 	       </div>
 	      </div>
+              <div class="form-group">
+                FASTA input: Source sequence is absent in reference genome:&nbsp;&nbsp;<input type="checkbox" id="is_absent" unchecked/>
+              </div>
 	    </div>
 	  </div>
           <br />
@@ -289,7 +293,7 @@
           </p>
           <h4>Accepted Input</h4>
           <p>
-	    You need to input Ensembl gene (e.g., ENSG00000232810) or transcript identifiers (e.g., ENST00000700026). For gene identifiers use "gene_id" as attribute and "transcript_id" for transcript identifiers. Gene symbols are currently not supported.
+	    You need to input Ensembl gene (e.g., ENSG00000232810) or transcript identifiers (e.g., ENST00000700026). For gene identifiers use "gene_id" as attribute and "transcript_id" for transcript identifiers. Gene symbols are currently not supported. Alternatively, you can also input a FASTA sequence with a header like ">Input" followed by the actual sequence. For FASTA input, you need to specify whether the sequence is present in the genome (default) or absent.
           </p>
           <h4>Sample Data</h4>
           <p>

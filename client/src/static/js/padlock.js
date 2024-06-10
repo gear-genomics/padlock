@@ -23,6 +23,7 @@ exampleButton.addEventListener('click', showExample)
 const armLength = document.querySelector('#armLength')
 const editDist = document.querySelector('#editDist')
 const useHamming = document.querySelector('#is_hamming')
+const isAbsent = document.querySelector('#is_absent')
 const useProbe = document.querySelector('#is_probe')
 const allowOverlap = document.querySelector('#is_overlapping')
 const colorAmount = document.querySelector('#colorAmount')
@@ -42,6 +43,7 @@ function run() {
   const eDist = Number.parseInt(editDist.value, 10)
   const genome = targetGenomes.querySelector('option:checked').value
   const uh = useHamming.checked
+  const iab = isAbsent.checked
   const up = useProbe.checked
   const ao = allowOverlap.checked
   const colorA = Number.parseInt(colorAmount.value, 10)
@@ -55,6 +57,7 @@ function run() {
   formData.append('editDist', eDist)
   formData.append('genome', genome)
   formData.append('hamming', uh)
+  formData.append('absent', iab)
   formData.append('probe', up)
   formData.append('overlap', ao)
   formData.append('colorAmount', colorA)
@@ -147,6 +150,10 @@ function showExample() {
     editBox.value = 1
     var armBox = document.getElementById('armLength')
     armBox.value = 18
+    document.getElementById("is_absent").checked = false;
+    document.getElementById("is_probe").checked = false;
+    document.getElementById("is_overlapping").checked = false;
+    document.getElementById("is_hamming").checked = false;
     var selectbox = document.getElementById('genome-select')
     for (var i = 0 ; i < selectbox.options.length ; i++) {
 	if (selectbox.options[i].value == 'Danio_rerio.GRCz10.dna.toplevel.fa.gz') {
