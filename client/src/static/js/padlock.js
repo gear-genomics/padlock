@@ -20,6 +20,7 @@ submitButton.addEventListener('click', function() {
 const exampleButton = document.getElementById('btn-example')
 exampleButton.addEventListener('click', showExample)
 
+const barcodeFile = document.getElementById('barcodeFile')
 const armLength = document.querySelector('#armLength')
 const editDist = document.querySelector('#editDist')
 const useHamming = document.querySelector('#is_hamming')
@@ -50,6 +51,7 @@ function run() {
   const codeL = Number.parseInt(codeLength.value, 10)
 
   const formData = new FormData()
+  formData.append('barcodeFile', barcodeFile.files[0])
   formData.append('geneText', document.getElementById('geneText').value)
   formData.append('attrGtf', document.getElementById('attrGtf').value)
   formData.append('featGtf', document.getElementById('featGtf').value)

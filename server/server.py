@@ -104,9 +104,14 @@ def generate():
             codeLength = 6
             if 'codeLength' in request.form.keys():
                codeLength = int(request.form['codeLength'])
-            # Build barcode path
             barname = "../barcodes/colors" + str(colorAmount) + "length" + str(codeLength) + ".fa.gz"
             barpath = os.path.join(PADLOCKWS, barname)
+            # Custom barcodes and color codes
+            if 'barcodeFile' in request.files:
+               fexp = request.files['barcodeFile']
+               if fexp.filename != '':
+                  barpath = os.path.join(sf, "padlock_" + uuidstr + "_" + secure_filename(fexp.filename))
+                  fexp.save(barpath)
             if not os.path.isfile(barpath):
                return jsonify(errors = [{"title": "Barcode file does not exist: " + barpath}]), 400
             if 'genome' in request.form.keys():
