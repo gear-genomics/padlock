@@ -155,7 +155,7 @@ def generate():
       datajs = dict()
       datajs["errors"] = []
       with open(errfile, "r") as err:
-         errInfo = ": " + err.read()
+         errInfo = err.read()
          if len(errInfo) > 3 or return_code != 0:
             datajs["errors"] = [{"title": "Error in running dicey. " + errInfo}] + datajs["errors"]
             return jsonify(datajs), 400
