@@ -157,11 +157,8 @@ def generate():
       with open(errfile, "r") as err:
          errInfo = ": " + err.read()
          if len(errInfo) > 3 or return_code != 0:
-            if len(errInfo) > 3:
-               datajs["errors"] = [{"title": "Error in running dicey" + errInfo}] + datajs["errors"]
-            if return_code != 0:
-               datajs["errors"] = [{"title": "Run Error - Dicey did not return 0"}] + datajs["errors"]
-               return jsonify(datajs), 400
+            datajs["errors"] = [{"title": "Error in running dicey. " + errInfo}] + datajs["errors"]
+            return jsonify(datajs), 400
       result = gzip.open(jsonfile).read()
       if result is not None:
          datajs = json.loads(result)
